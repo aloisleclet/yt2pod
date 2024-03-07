@@ -2,17 +2,13 @@
 
 import random
 import subprocess
+import sys
 
-env = "dev";
-
-if (env == "dev"):
-    destPath = "./files";
-else: 
-    destPath = "/var/www/html/yt2pod";
+destPath = "/var/www/html/yt2pod";
 
 mp3Url = "https://yt2pod.aloisleclet.fr"
 rssUrl = "https://yt2pod.aloisleclet.fr/feed.xml"
-channelFilePath = "./channels.txt";
+channelFilePath = sys.argv[1];
 
 rssEps = [];
 
@@ -98,11 +94,7 @@ def download(urls):
         rssEps.append(data)
 
 channels = getChannels()
-
-if (env == "dev"):
-    videoUrls = getLastUrls(channels[0:2], 2)
-else:
-    videoUrls = getLastUrls(channels, 10)
+videoUrls = getLastUrls(channels, 10)
 
 download(videoUrls)
 rssGen()
