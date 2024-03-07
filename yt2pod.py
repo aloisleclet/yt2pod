@@ -4,11 +4,11 @@ import random
 import subprocess
 import sys
 
+ytdlpPath = "/usr/local/bin"
 destPath = "/var/www/html/yt2pod";
 
-mp3Url = "https://yt2pod.aloisleclet.fr"
-rssUrl = "https://yt2pod.aloisleclet.fr/feed.xml"
-channelFilePath = sys.argv[1];
+channelFilePath = sys.argv[1]
+rootUrl = sys.argv[2]
 
 rssEps = [];
 
@@ -37,19 +37,19 @@ def rssGen():
     rss = """<?xml version='1.0' encoding='UTF-8'?>
     <rss version='2.0'>
     <channel>
-    <title>personnal podcast | RSS</title>
-    <link>https://www.youtube.com/</link>
-    <description>personnal podcast RSS</description>
-    <language>fr-fr</language>"""
+    <title>yt 2 podcast</title>
+    <link>{link}</link>
+    <description>youtube 2 podcast micro service</description>
+    <language>fr-fr</language>""".format(link = rootUrl)
    
     for rssEp in rssEps:
         rss += rssEpGen(rssEp)
     
     rss += "\t</channel>\n</rss>"
     
-    with open('./files/feed.xml', 'w') as f:
+    filename = "{dest}/feed.xml".format(dest = destPath)
+    with open(filename) as f:
         f.write(rss)
-
 # main
 
 #for each channel url get 10 last video url
@@ -59,7 +59,7 @@ def getLastUrls(channels, n):
 
     for url in channels:
         print("extract recent videos from {url}".format(url = url))
-        command = "yt-dlp --no-warning --playlist-end {n} {url} -j | jq -r .webpage_url".format(url = url, n = n)
+        command = "{path}/yt-dlp --no-warning --playlist-end {n} {url} -j | jq -r .webpage_url".format(url = url, n = n, path = ytdlpPath)
 
         output = subprocess.check_output(command, shell=True)
         lines = str(output.decode("utf-8")).split("\n");
@@ -72,20 +72,27 @@ def getLastUrls(channels, n):
     return (urls)
 
 def getDataFromUrl(url):
-    command = "yt-dlp {url} --print '%(channel)s - %(duration>%H:%M:%S)s - %(title)s - %(title)s.mp3'".format(url = url)
+    command = "{path}/yt-dlp {url} --print '%(channel)s - %(duration>%H:%M:%S)s - %(title)s'".format(url = url, path = ytdlpPath)
     print(command)
+
+    channel = data[0]
+    duration = data[1]
+    title = data[2]
+    filename = "{title}.mp3".format(title = title)
+
     output = subprocess.check_output(command, shell=True)
     datas = str(output.decode("utf-8")).split(" - ")
-    title = datas[2]+" "+datas[1]
-    link = "{mp3Url}/{filename}".format(mp3Url = mp3Url, filename = datas[3])
-    description = datas[0]
+    title = "{channel} | {title} | {duration}".format(channel = channel, title = title, duration = duration)
+    link = "{rootUrl}/{filename}".format(rootUrl = rootUrl, filename = filename)
+    description = title + "\n" + link
+
     return ({"title": title, "link": link, "description": description})
 
 def download(urls):
     random.shuffle(urls);
     for url in urls:
         print("extract audio from {url}".format(url = url))
-        command = "yt-dlp --extract-audio --audio-format mp3 {url} -o '{dest}/%(title)s.%(ext)s'".format(url = url, dest = destPath)
+        command = "{path}/yt-dlp --extract-audio --audio-format mp3 {url} -o '{dest}/%(title)s.%(ext)s'".format(url = url, dest = destPath, path = ytdlpPath)
         print(command)
         output = subprocess.check_output(command, shell=True)
        
