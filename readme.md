@@ -41,6 +41,8 @@ crontab -e
 5.
 ```
 mkdir /var/www/html/yt2pod
+touch /var/www/html/yt2pod/feed.xml
+chmod 755 /var/www/html/yt2pod/feed.xml
 ```
 
 6. link your favorite podcast app with the rss feed

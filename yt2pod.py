@@ -3,6 +3,7 @@
 import random
 import subprocess
 import sys
+import os
 
 ytdlpPath = "/usr/local/bin"
 destPath = "/var/www/html/yt2pod";
@@ -48,7 +49,8 @@ def rssGen():
     rss += "\t</channel>\n</rss>"
     
     filename = "{dest}/feed.xml".format(dest = destPath)
-    with open(filename) as f:
+
+    with open(filename, "w+") as f:
         f.write(rss)
 # main
 
@@ -75,13 +77,14 @@ def getDataFromUrl(url):
     command = "{path}/yt-dlp {url} --print '%(channel)s - %(duration>%H:%M:%S)s - %(title)s'".format(url = url, path = ytdlpPath)
     print(command)
 
+    output = subprocess.check_output(command, shell=True)
+    data = str(output.decode("utf-8")).split(" - ")
+    
     channel = data[0]
     duration = data[1]
     title = data[2]
+    
     filename = "{title}.mp3".format(title = title)
-
-    output = subprocess.check_output(command, shell=True)
-    datas = str(output.decode("utf-8")).split(" - ")
     title = "{channel} | {title} | {duration}".format(channel = channel, title = title, duration = duration)
     link = "{rootUrl}/{filename}".format(rootUrl = rootUrl, filename = filename)
     description = title + "\n" + link
