@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+    <rss version='2.0'>
+    <channel>
+    <title>personnal podcast | RSS</title>
+    <link>https://www.youtube.com/</link>
+    <description>personnal podcast RSS</description>
+    <language>fr-fr</language>	
+<item>
+	<title>La trouvaille scandaleuse d’un chercheur sur un switch réseau 00:18:31</title>
+		<link>https://yt2pod.aloisleclet.fr/La trouvaille scandaleuse d’un chercheur sur un switch réseau.mp3
+</link>
+		<description>Underscore_</description>
+	</item>
+	
+<item>
+	<title>DISPARU DES RÉSEAUX 00:21:57</title>
+		<link>https://yt2pod.aloisleclet.fr/DISPARU DES RÉSEAUX.mp3
+</link>
+		<description>Ben Névert</description>
+	</item>
+	
+<item>
+	<title>À quoi sert vraiment le Vision Pro ? (avec une développeuse VR) 00:19:12</title>
+		<link>https://yt2pod.aloisleclet.fr/À quoi sert vraiment le Vision Pro ? (avec une développeuse VR).mp3
+</link>
+		<description>Underscore_</description>
+	</item>
+	
+<item>
+	<title>Il raconte l’accident qui a changé sa vie 00:38:46</title>
+		<link>https://yt2pod.aloisleclet.fr/Il raconte l’accident qui a changé sa vie.mp3
+</link>
+		<description>Ben Névert</description>
+	</item>
+	</channel>
+</rss>
