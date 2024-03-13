@@ -16,7 +16,6 @@ pip install jsonpickle --break-system-packages
 
 #main
 
-
 # ask config
 
 updateLastN="10"
@@ -39,11 +38,11 @@ audioDir="${rootPath}/audios"
 mkdir ${audioDir} || exit
 
 touch "${rootPath}/feed.xml" || exit
-touch "${rootPath}/storage.json" || exit
+touch "./storage.json" || exit
 touch ./yt2pod.conf || exit
 
 feedPath="${rootPath}/feed.xml"
-storagePath="${rootPath}/storage.json"
+storagePath="./storage.json"
 
 echo "${audioDir}"
 echo "${feedPath}"
