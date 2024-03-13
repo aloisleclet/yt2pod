@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # dependencies
-sudo apt-get install ffmpeg
-sudo apt-get install apache2
-sudo apt-get install git
-sudo apt-get install python3
-sudo apt-get install jq
-sudo apt-get install cron
+sudo apt-get install -y python3
+sudo apt-get install -y pip
+sudo apt-get install -y ffmpeg 
+sudo apt-get install -y apache2
+sudo apt-get install -y jq
+sudo apt-get install -y cron
 
 # pip dependencies
-pip install yt-dlp
-pip install jsonpickle
+pip install yt-dlp --break-system-packages
+pip install jsonpickle --break-system-packages
 
 # utils
 
@@ -32,14 +32,15 @@ read storageMaxSize
 
 # create files and dirs
 
-rootPath=$(pwd)
+rootPath="/var/www/html/yt2pod"
+
+mkdir ${rootPath} || exit
+audioDir="${rootPath}/audios"
+mkdir ${audioDir} || exit
 
 touch "${rootPath}/feed.xml" || exit
 touch "${rootPath}/storage.json" || exit
 touch ./yt2pod.conf || exit
-
-audioDir="${rootPath}/audios"
-mkdir ${audioDir} || exit
 
 feedPath="${rootPath}/feed.xml"
 storagePath="${rootPath}/storage.json"
