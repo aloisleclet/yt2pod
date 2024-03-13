@@ -18,18 +18,18 @@ chmod +x ./install.sh
 3. Manage your channels
 
 ```
-./yt2pod.py add https://www.youtube.com/@underscore_
-./yt2pod.py remove @underscore_
-./yt2pod.py list 
-./yt2pod.py update
-./yt2pod.py help
+./yt2pod add https://www.youtube.com/@underscore_
+./yt2pod remove @underscore_
+./yt2pod list 
+./yt2pod update
+./yt2pod help
 ```
 
 4. Auto update with a cron
 
 ```
 crontab -e 
-0 16 * * mon /path/to/yt2pod/yt2pod.py update 
+0 16 * * mon /path/to/yt2pod/yt2pod update 
 ```
 
 5. add your RSS feed (ServerPublicUrl) to your favorite podcast app

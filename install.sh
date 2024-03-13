@@ -54,7 +54,7 @@ echo "${storagePath}"
 chmod +x "${feedPath}"
 chmod +x "${storagePath}"
 chmod +x "${audioDir}"
-chmod +x ./src/yt2pod.py
+chmod +x ./src/yt2pod
 chmod +x ./yt2pod.conf
 
 # write config file
