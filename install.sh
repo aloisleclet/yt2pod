@@ -32,17 +32,18 @@ read storageMaxSize
 # create files and dirs
 
 rootPath="/var/www/html/yt2pod"
+currentPath=$(pwd)
 
 mkdir ${rootPath} || exit
 audioDir="${rootPath}/audios"
 mkdir ${audioDir} || exit
 
 touch "${rootPath}/feed.xml" || exit
-touch "./storage.json" || exit
-touch ./yt2pod.conf || exit
+touch "${currentPath}/storage.json" || exit
+touch "${currentPath}/yt2pod.conf" || exit
 
 feedPath="${rootPath}/feed.xml"
-storagePath="../storage.json"
+storagePath="${currentPath}/storage.json"
 
 echo "${audioDir}"
 echo "${feedPath}"
