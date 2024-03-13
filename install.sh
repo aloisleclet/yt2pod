@@ -42,7 +42,7 @@ touch "./storage.json" || exit
 touch ./yt2pod.conf || exit
 
 feedPath="${rootPath}/feed.xml"
-storagePath="./storage.json"
+storagePath="../storage.json"
 
 echo "${audioDir}"
 echo "${feedPath}"
