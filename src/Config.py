@@ -21,7 +21,7 @@ class Config:
             
             # parse config file
             for line in lines:
-                l = line.split(":")
+                l = line.split(":", 1)
                 key = l[0]
                 value = l[1].strip().replace('\\n', '')
 
@@ -31,10 +31,10 @@ class Config:
                     self.storageFile = value
                 elif (key == 'audioDir'):
                     self.audioDir = value
-                elif (key ==  'serverPublicUrl'):
+                elif (key == 'serverPublicUrl'):
                     self.rootUrl = value
-                elif (key ==  'updateLastN'):
+                elif (key == 'updateLastN'):
                     self.updateLastAudioN = int(value)
-                elif (key ==  'storageMaxSize'):
+                elif (key == 'storageMaxSize'):
                     self.storageMaxSize = int(value)
 

@@ -8,7 +8,6 @@ class ChannelRepository:
 
     def add(self, channel):
         channels = self.storage.get('channels')
-        print(channels)
         channels.append(channel)
         self.storage.set('channels', channels)
 

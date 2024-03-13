@@ -18,8 +18,9 @@ class RSSHelper:
         episode = """\n\t\t<item>
 \t\t\t<title>{title}</title>
 \t\t\t<link>{link}</link>
+\t\t\t<enclosure url="{link}" type="audio/mpeg"/>
 \t\t\t<description>{description} upload {uploadDate}</description>
-\y\t</item>\n""".format(title = audio['title'], link = audio['url'], description = audio['description'], uploadDate = uploadDateStr)
+\t\t</item>\n""".format(title = audio['title'], link = audio['url'], description = audio['description'], uploadDate = uploadDateStr)
         return episode
 
     def build(self):
