@@ -94,11 +94,11 @@ class Core:
             d1 = audio['uploadDatetime'][:10].split('-')
             d2 = oldestAudio['uploadDatetime'][:10].split('-')
           
-            print(d1)
-            print(d2)
-
             if (datetime.date(int(d1[0]), int(d1[1]), int(d2[2])) < datetime.date(int(d2[0]), int(d2[1]), int(d2[2]))):
                 oldestAudio = audio
+        
+        if (oldestAudio['uploadDatetime'] == datetime.datetime.now().strftime("%Y-%m-%d")):
+            oldestAudio = audios[0]
 
        # drop it 
         print ("Storage Max Size overflow: removing {path}".format(path = oldestAudio['path']))
