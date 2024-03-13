@@ -45,9 +45,9 @@ touch "${currentPath}/yt2pod.conf" || exit
 feedPath="${rootPath}/feed.xml"
 storagePath="${currentPath}/storage.json"
 
-echo "${audioDir}"
-echo "${feedPath}"
-echo "${storagePath}"
+echo "create ${audioDir}"
+echo "create ${feedPath}"
+echo "create ${storagePath}"
 
 # set rights
 
