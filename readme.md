@@ -1,50 +1,45 @@
-# script_yt2pod
+# yt2pod
 
-daily audio of your favorites youtube channel on your favorite podcast app
+Generate rss podcast feeds from your favorites youtube channel for your favorite podcast app
 
 # how to use
 
-1. install on vps
+1. Install on your server
 
 ```
-sudo apt-get install ffmpeg
-sudo apt-get install apache2
-sudo apt-get install git
-sudo apt-get install python3
-sudo apt-get install jq
-sudo apt-get install cron
-sudo wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp
-sudo chmod a+rx ~/usr/local/bin/yt-dlp
 cd ~
-git clone https://github.com/aloisleclet/script_yt2pod 
+git clone https://github.com/aloisleclet/yt2pod 
+chmod +x ./install.sh
+./install.sh
 ```
 
-2. set right
+2. Setup server
 
-```
-cd script_yt2pod
-chmod +x script.py
-```
-
-3. add your favorite channels
-```
-vim ./channels.txt
-```
-
-
-4. set cron
-```
-crontab -e 
-0 16 * * mon /home/me/script_yt2pod/yt2pod.py /home/me/script_yt2pod/channels.txt http://yt2pod.yoursite.com
-```
-
-5.
 ```
 mkdir /var/www/html/yt2pod
 touch /var/www/html/yt2pod/feed.xml
 chmod 755 /var/www/html/yt2pod/feed.xml
 ```
 
-6. link your favorite podcast app with the rss feed
+3. link server and your domain
 
-7. Enjoy: you now have audio of your favorites channel daily updated.  
+4. Manage your channels
+
+```
+./yt2pod.py add https://www.youtube.com/@underscore_
+./yt2pod.py remove @underscore_
+./yt2pod.py list 
+./yt2pod.py update
+./yt2pod.py help
+```
+
+5. Auto update with a cron
+
+```
+crontab -e 
+0 16 * * mon /path/to/yt2pod/yt2pod.py update 
+```
+
+6. Link your favorite podcast app with the serverPublicUrl
+
+7. Enjoy
