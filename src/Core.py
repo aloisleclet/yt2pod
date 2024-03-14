@@ -68,7 +68,7 @@ class Core:
                 # create audio Object
                 title = data['title']
                 path = "{audioDir}/{id}.mp3".format(audioDir = self.config.audioDir, id = data['id'])
-                rssUrl = "{rootUrl}/{id}.mp3".format(rootUrl = self.config.rootUrl, id = data['id'])
+                rssUrl = "{rootUrl}/audios/{id}.mp3".format(rootUrl = self.config.rootUrl, id = data['id'])
 
                 description = data['description']
                 uploadDatetime = data['uploadDatetime']
