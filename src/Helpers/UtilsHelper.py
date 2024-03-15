@@ -11,3 +11,11 @@ class UtilsHelper:
         d = int(dateStr[6:]) 
         
         return datetime.date(y, m, d)
+
+    def getSizeFromAudios(self, audios):
+        currentSize = 0 
+
+        for audio in audios:
+            currentSize += audio.size
+
+        return currentSize

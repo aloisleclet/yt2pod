@@ -56,7 +56,7 @@ class Core:
         channels = self.channelRepository.readAll()
 
         for channel in channels:
-            print('Scrapping last url from {name}'.format(name = channel.name))
+            print('Scrap last url from {name}'.format(name = channel.name))
             ids = self.ydl.getLastNVideoIdFromChannel(self.config.updateLastAudioN, channel)
             
             uniqIds = []
@@ -67,26 +67,29 @@ class Core:
 
             for id in uniqIds:
                 url = 'https://www.youtube.com/?v={id}'.format(id = id)
-                print('Downloading {url}'.format(url = url))
                 data = self.ydl.getDataFromUrl(url)
 
                 # get current size
-
-                currentSize = 0 
                 audios = self.audioRepository.readAll()
-
-                for audio in audios:
-                    currentSize += audio.size
+                currentSize = self.utils.getSizeFromAudios(audios) 
+                sizeLeft = int(self.config.storageMaxSize) - currentSize
+                fileSize = int(data['size'])
                 
-                sizeAfterDownload = currentSize + int(data['size'])
-               
-                # make space if needed
+                isAudioToDelete = len(audios) > 0 
 
-                while (sizeAfterDownload > self.config.storageMaxSize):
-                    self.dropLastOutdatedAudio() 
+                while (sizeLeft < fileSize and isAudioToDelete == True):
+                    isAudioToDelete = self.dropLastOutdatedAudio() 
+                    # update size left
+                    audios = self.audioRepository.readAll()
+                    currentSize = self.utils.getSizeFromAudios(audios) 
+                    sizeLeft = int(self.config.storageMaxSize) - currentSize
 
+                if (sizeLeft < fileSize):
+                    print('Error: {url} Storage Max Size < file Size'.format(url = url))
+                    return
                 # add the new audio
                
+                print('Download {url}'.format(url = url))
                 # create audio Object
                 title = data['title']
                 path = "{audioDir}/{id}.mp3".format(audioDir = self.config.audioDir, id = data['id'])
@@ -99,7 +102,6 @@ class Core:
 
                 audio = Audio({'id': id, 'path': path, 'url': rssUrl, 'channelName': channel.name, 'title': title, 'uploadDate': uploadDate, 'description': description, 'duration': duration, 'size': size}) 
                
-                print(self.config.audioDir)
                 self.audioRepository.create(id, audio)
                 self.ydl.downloadAudioFromUrl("https://www.youtube.com/?v={id}".format(id = id), self.config.audioDir)
 
@@ -125,6 +127,9 @@ class Core:
     def dropLastOutdatedAudio(self):
         audios = self.audioRepository.readAll()
 
+        if (len(audios) == 0):
+            return False
+
         # find oldest 
         oldestAudio = Audio({'id': '', 'path': '', 'url': '', 'channelName': '', 'title': '', 'uploadDate': datetime.datetime.now().strftime("%Y%m%d"), 'description': '', 'duration': '', 'size': ''})
 
@@ -135,11 +140,15 @@ class Core:
           
             if (d1 < d2):
                 oldestAudio = audio
-        
+       
         if (oldestAudio.uploadDate == datetime.datetime.now().strftime("%Y%m%d")):
+
+            print(audios)
             oldestAudio = audios[0]
 
         # drop it 
         print ("Storage Max Size overflow: removing {path}".format(path = oldestAudio.path))
         self.audioRepository.delete(oldestAudio.id)
         os.remove(oldestAudio.path)
+
+        return True

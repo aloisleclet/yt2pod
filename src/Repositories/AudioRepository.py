@@ -23,7 +23,7 @@ class AudioRepository:
     def update(self, id, audio):
         return self.storage.update(id, audio)
 
-    def delete(self, audio):
+    def delete(self, id):
         return self.storage.delete(id)
 
     def readAll(self):

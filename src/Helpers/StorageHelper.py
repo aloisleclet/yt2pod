@@ -14,9 +14,8 @@ class StorageHelper:
     def create(self, id, obj):
         # obj to dict
         dict = json.dumps(vars(obj))
-        
         listStr = self._getAll()
-        listDict = json.loads(listStr)[self.name]
+        listDict = self._deserialize(listStr)
 
         listDict.append({'id': id, 'value': dict})
 
@@ -28,14 +27,13 @@ class StorageHelper:
             i += 1
 
         listStr = self._serialize(listDict)
-        
         self._setAll(listStr)
 
         return True
 
     def read(self, id):
         listStr = self._getAll()
-        listDict = json.loads(listStr)[self.name]
+        listDict = self._deserialize(listStr)
 
         for dict in listDict:
             if (dict['id'] == id):
@@ -45,7 +43,7 @@ class StorageHelper:
 
     def update(self, id, dict):
         listStr = self._getAll()
-        listDict = json.loads(listStr)[self.name]
+        listDict = self._deserialize(listStr)
 
         i = 0
         while i < len(listDict):
@@ -62,19 +60,20 @@ class StorageHelper:
 
     def delete(self, id):
         listStr = self._getAll()
-        listDict = json.loads(listStr)[self.name]
+        listDict = self._deserialize(listStr)
 
         i = 0
         while i < len(listDict):
             if (listDict[i]['id'] == id):
                 listDict.pop(i)
-
+            
                 listStr = self._serialize(listDict)
-
                 self._setAll(listStr)
+
                 return True
             i += 1
 
+        
         return False
 
     def readAll(self):
@@ -86,6 +85,9 @@ class StorageHelper:
             newListDict.append(dict['value'])
 
         return newListDict
+
+    def _deserialize(self, listStr):
+        return json.loads(listStr)[self.name]
 
     def _serialize(self, listDict):
         dict = {self.name: listDict}

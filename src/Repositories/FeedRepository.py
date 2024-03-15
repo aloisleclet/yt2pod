@@ -23,7 +23,7 @@ class FeedRepository:
     def update(self, id, feed):
         return self.storage.update(id, feed)
 
-    def delete(self, feed):
+    def delete(self, id):
         return self.storage.delete(id)
 
     def readAll(self):
