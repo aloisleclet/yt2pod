@@ -33,41 +33,36 @@ read storageMaxSize
 
 rootPath="/var/www/html/yt2pod"
 currentPath=$(pwd)
+storageDir="${currentPath}/storages"
+audioDir="${rootPath}/audios"
+rssDir="${rootPath}/feeds"
 
 mkdir ${rootPath} || exit
-audioDir="${rootPath}/audios"
+mkdir ${rssDir} || exit
 mkdir ${audioDir} || exit
+mkdir ${storageDir} || exit
 
-touch "${rootPath}/feed.xml" || exit
-touch "${currentPath}/storage.json" || exit
 touch "${currentPath}/yt2pod.conf" || exit
 
-feedPath="${rootPath}/feed.xml"
-storagePath="${currentPath}/storage.json"
-
-echo "create ${audioDir}"
-echo "create ${feedPath}"
-echo "create ${storagePath}"
+echo "create directory ${rssDir}"
+echo "create directory ${storageDir}"
+echo "create directory ${audioDir}"
 
 # set rights
 
-chmod +x "${feedPath}"
-chmod +x "${storagePath}"
+chmod +x "${rssDir}"
+chmod +x "${storageDir}"
 chmod +x "${audioDir}"
 chmod +x ./src/yt2pod
 chmod +x ./yt2pod.conf
 
 # write config file
 
-echo "rssFile: ${feedPath}" >> ./yt2pod.conf 
-echo "storageFile: ${storagePath}" >> ./yt2pod.conf 
+echo "rssDir: ${rssDir}" >> ./yt2pod.conf 
+echo "storageDir: ${storageDir}" >> ./yt2pod.conf 
 echo "audioDir: ${audioDir}" >> ./yt2pod.conf 
 echo "serverPublicUrl: ${serverPublicUrl}" >> ./yt2pod.conf 
 echo "updateLastN: ${updateLastN}" >> ./yt2pod.conf 
 echo "storageMaxSize: ${storageMaxSize}" >> ./yt2pod.conf 
-
-# init storage
-
-echo "\"{\\\"storage\\\": {\\\"channels\\\": [], \\\"audios\\\": []}}\"" > ${storagePath}
 
 echo "Install done."

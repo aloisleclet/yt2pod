@@ -7,8 +7,8 @@ class YoutubeDownloadHelper:
     def __init__(self):
         pass
 
-    def getLastNUrlFromChannel(self, n, channel):
-        urls = [] 
+    def getLastNVideoIdFromChannel(self, n, channel):
+        ids = [] 
 
         print("Get last {n} video urls from {url}".format(url = channel.url, n = n))
         with yt_dlp.YoutubeDL({'outtmpl': '%(id)s%(ext)s', 'quiet': True, 'max_downloads': n, 'playlistend': n}) as ydl:
@@ -16,9 +16,9 @@ class YoutubeDownloadHelper:
             dict = ydl.extract_info(url, download=False)
 
             for entry in dict['entries']:
-                url = "https://www.youtube.com/?v={id}".format(id = entry['id'])
-                urls.append(url)
-        return urls
+                ids.append(entry['id'])
+                print("https://www.youtube.com/{id}".format(id = entry['id']))
+        return ids
 
     def getDataFromUrl(self, url):
         ydl_opts = {
@@ -36,17 +36,11 @@ class YoutubeDownloadHelper:
 
             size = int(data['filesize'] / 1000000)
 
-            # process upload date str to datetime obj
-            y = int(data['upload_date'][0:4]) 
-            m = int(data['upload_date'][4:6]) 
-            d = int(data['upload_date'][6:]) 
-
-            uploadDatetime = datetime.datetime(y, m, d)
-
-            datas = {'id': data['id'], 'title': data['title'], 'channelUrl': data['channel_url'], 'uploadDatetime': uploadDatetime, 'description': data['description'], 'duration': data['duration_string'], 'size': size} 
+            datas = {'id': data['id'], 'title': data['title'], 'channelUrl': data['channel_url'], 'uploadDate': data['upload_date'], 'description': data['description'], 'duration': data['duration_string'], 'size': size} 
             return (datas)
 
     def downloadAudioFromUrl(self, url, destDir):
+        print(destDir)
         ydl_opts = {
             'quiet': True,
             'format': 'mp3/bestaudio/best',

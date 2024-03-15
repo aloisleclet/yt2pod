@@ -10,7 +10,7 @@ Generate rss podcast feeds from your favorites youtube channel for your favorite
 cd ~
 git clone https://github.com/aloisleclet/yt2pod 
 chmod +x ./install.sh
-./install.sh
+sudo ./install.sh
 ```
 
 2. link server and your domain
