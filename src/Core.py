@@ -105,23 +105,24 @@ class Core:
                 self.audioRepository.create(id, audio)
                 self.ydl.downloadAudioFromUrl("https://www.youtube.com/?v={id}".format(id = id), self.config.audioDir)
 
-        feed = self.feedRepository.read(channel.name)
+            feed = self.feedRepository.read(channel.name)
 
-        if (feed == False):
-            url = "{serverPublicUrl}/{name}.xml".format(serverPublicUrl = self.config.serverPublicUrl, name = channel.name)
-            feed = Feed({"url": url, "channelName": channel.name, "description": channel.description})
-            self.feedRepository.create(channel.name, feed)
+            if (feed == False):
+                url = "{serverPublicUrl}/feeds/{name}.xml".format(serverPublicUrl = self.config.serverPublicUrl, name = channel.name)
+                feed = Feed({"url": url, "channelName": channel.name, "description": channel.description})
+                self.feedRepository.create(channel.name, feed)
 
-        # get audios to generate feed file
+            # get audios to generate feed file
 
-        feedsAudios = []
-        audios = self.audioRepository.readAll()
+            feedsAudios = []
+            audios = self.audioRepository.readAll()
 
-        for audio in audios:
-            if (audio.channelName == feed.channelName):
-                feedsAudios.append(audio)
+            for audio in audios:
+                if (audio.channelName == feed.channelName):
+                    feedsAudios.append(audio)
 
             self.rss.build(feed, feedsAudios)
+        
         print('Update complete.');
 
     def dropLastOutdatedAudio(self):

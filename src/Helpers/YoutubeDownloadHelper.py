@@ -41,7 +41,7 @@ class YoutubeDownloadHelper:
 
     def downloadAudioFromUrl(self, url, destDir):
         ydl_opts = {
-            'quiet': False,
+            'quiet': True,
             'format': 'mp3/bestaudio/best',
             'outtmpl': '{destDir}/%(id)s'.format(destDir = destDir),
             'postprocessors': [{  # Extract audio using ffmpeg
