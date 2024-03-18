@@ -1,8 +1,8 @@
 import os
+import sys
 
 class Config:
     def __init__(self):
-        self.configFile = "../yt2pod.conf"
 
         self.rssDir = ""
         self.storageDir = ""
@@ -11,7 +11,14 @@ class Config:
         self.serverPublicUrl = ""
         self.updateLastAudioN = 0
 
+        
+        self.configFile = self.getConfigPath()
         self.readFile(self.configFile)
+        
+
+    def getConfigPath(self):
+        path = "{root}/yt2pod.conf".format(root = '/'.join(sys.argv[0].split("/")[0: -2]))
+        return path
 
     def readFile(self, configPath):
 
