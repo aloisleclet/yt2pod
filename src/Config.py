@@ -1,5 +1,6 @@
 import os
 import sys
+import inspect
 
 class Config:
     def __init__(self):
@@ -11,14 +12,15 @@ class Config:
         self.serverPublicUrl = ""
         self.updateLastAudioN = 0
 
-        
         self.configFile = self.getConfigPath()
         self.readFile(self.configFile)
-        
 
     def getConfigPath(self):
-        path = "{root}/yt2pod.conf".format(root = '/'.join(sys.argv[0].split("/")[0: -2]))
-        return path
+        filename = inspect.getframeinfo(inspect.currentframe()).filename
+        path = os.path.dirname(os.path.abspath(filename))
+        root = '/'.join(path.split('/')[0: -1])
+        resPath = "{root}/yt2pod.conf".format(root = root)
+        return resPath
 
     def readFile(self, configPath):
 
