@@ -17,8 +17,7 @@ class YoutubeDownloadHelper:
 
             for entry in dict['entries']:
                 print(entry['is_live'])
-                if (entry['is_live'] == False):
-                    ids.append(entry['id'])
+                if (entry['is_live'] == 'False'):
                     print("https://www.youtube.com/{id}".format(id = entry['id']))
         return ids
 
