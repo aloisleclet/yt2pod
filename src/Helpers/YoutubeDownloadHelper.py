@@ -16,8 +16,8 @@ class YoutubeDownloadHelper:
             dict = ydl.extract_info(url, download=False)
 
             for entry in dict['entries']:
-                print(entry['is_live'])
-                if (entry['is_live'] == 'False'):
+                if (str(entry['is_live']) == "False"):
+                    ids.append(entry['id'])
                     print("https://www.youtube.com/{id}".format(id = entry['id']))
         return ids
 
