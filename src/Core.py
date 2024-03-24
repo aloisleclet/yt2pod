@@ -58,7 +58,7 @@ class Core:
         for channel in channels:
             print('Scrap last url from {name}'.format(name = channel.name))
             ids = self.ydl.getLastNVideoIdFromChannel(self.config.updateLastAudioN, channel)
-            
+
             uniqIds = []
 
             for id in ids:
