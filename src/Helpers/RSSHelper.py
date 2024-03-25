@@ -33,7 +33,9 @@ class RSSHelper:
 \t\t<link>{url}</link>
 \t\t<description>{description}</description>
 \t\t<language>{lang}</language>""".format(title = title, url = feed.url, description = description, lang = self.lang)
-        
+       
+        audios.reverse()
+
         for audio in audios:
             rss += self.createEpisode(audio)
         
